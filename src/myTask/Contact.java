@@ -76,9 +76,9 @@ public class Contact implements ContactInfo{
         ContactInfo[] infos = new ContactInfo[4];
 
         infos[0] = (ContactInfo)this; // new ContactInfo();
-        infos[1] = (ContactInfo) mymail[0];
-        infos[2] = (ContactInfo) mymail[1];
-        infos[3] = (ContactInfo) mymail[2];
+//        infos[1] = (ContactInfo) mymail[0];
+//        infos[2] = (ContactInfo) mymail[1];
+//        infos[3] = (ContactInfo) mymail[2];
 
 
 
