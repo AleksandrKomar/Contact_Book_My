@@ -1,6 +1,8 @@
 package myTask;
 
-public class Contact implements ContactInfo{
+import java.util.ArrayList;
+
+public class Contact implements ContactInfo {
 
 
     private String contactName;
@@ -18,7 +20,6 @@ public class Contact implements ContactInfo{
 
         if (newName == null || newName.trim().length() == 0)
             return;
-
 
         setContactName(newName);
     }
@@ -44,7 +45,6 @@ public class Contact implements ContactInfo{
         if (geteMailNumber() >= 3) {
             return null;
         }
-
 
         Email m = new Email(localPart, domain);
 
@@ -78,16 +78,25 @@ public class Contact implements ContactInfo{
 
     public ContactInfo[] getInfo() {
         //Implement this method
-        ContactInfo[] infos = new ContactInfo[4];
 
-        infos[0] = this; // new ContactInfo();
-        infos[1] = (ContactInfo) mymail[0];
-        infos[2] = (ContactInfo) mymail[1];
-        infos[3] = (ContactInfo) mymail[2];
+        ArrayList<ContactInfo> list = new ArrayList<>();
+
+        list.add(this);
+
+        for (int i = 0; i < mymail.length; i++) {
+
+            if (mymail[i] == null) {
+                continue;
+            }
+
+            list.add(i + 1, mymail[i]);
+        }
 
 
+        ContactInfo[] array = new ContactInfo[list.size()];
+        list.toArray(array);
 
-        return infos;
+        return array;
     }
 
     @Override
@@ -101,7 +110,7 @@ public class Contact implements ContactInfo{
         return this.getContactName();
     }
 
-    public class Social implements ContactInfo{
+    public class Social implements ContactInfo {
 
         private String instagramId;
 
@@ -125,7 +134,7 @@ public class Contact implements ContactInfo{
         }
     }
 
-    public class Email implements ContactInfo{
+    public class Email implements ContactInfo {
 
         private String email;
 
