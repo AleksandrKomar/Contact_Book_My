@@ -15,6 +15,11 @@ public class Contact implements ContactInfo{
     }
 
     public void rename(String newName) {
+
+        if (newName == null || newName.trim().length() == 0)
+            return;
+
+
         setContactName(newName);
     }
 
@@ -75,10 +80,10 @@ public class Contact implements ContactInfo{
         //Implement this method
         ContactInfo[] infos = new ContactInfo[4];
 
-        infos[0] = (ContactInfo)this; // new ContactInfo();
-//        infos[1] = (ContactInfo) mymail[0];
-//        infos[2] = (ContactInfo) mymail[1];
-//        infos[3] = (ContactInfo) mymail[2];
+        infos[0] = this; // new ContactInfo();
+        infos[1] = (ContactInfo) mymail[0];
+        infos[2] = (ContactInfo) mymail[1];
+        infos[3] = (ContactInfo) mymail[2];
 
 
 
@@ -87,15 +92,16 @@ public class Contact implements ContactInfo{
 
     @Override
     public String getTitle() {
-        return null;
+
+        return "Name";
     }
 
     @Override
     public String getValue() {
-        return null;
+        return this.getContactName();
     }
 
-    public class Social {
+    public class Social implements ContactInfo{
 
         private String instagramId;
 
@@ -107,14 +113,38 @@ public class Contact implements ContactInfo{
         public void setInstagramId(String instagramId) {
             this.instagramId = instagramId;
         }
+
+        @Override
+        public String getTitle() {
+            return null;
+        }
+
+        @Override
+        public String getValue() {
+            return null;
+        }
     }
 
-    public class Email {
+    public class Email implements ContactInfo{
 
         private String email;
 
         public Email(String email, String domain) {
             this.email = email + "@" + domain;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        @Override
+        public String getTitle() {
+            return "Email";
+        }
+
+        @Override
+        public String getValue() {
+            return this.getEmail();
         }
     }
 

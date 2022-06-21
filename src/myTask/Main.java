@@ -5,6 +5,24 @@ public class Main {
     public static void main(String[] args) {
 
 
+        {
+            Contact contact = new Contact("William the Legitimate Heir");
+            ContactInfo nameInfo = contact.getInfo()[0];
+
+            System.out.println(toString(nameInfo));//"Name: William the Legitimate Heir"
+
+            contact.rename(null);
+            System.out.println(toString(nameInfo));//"Name: William the Legitimate Heir"
+
+            contact.rename("");
+            System.out.println(toString(nameInfo));//"Name: William the Legitimate Heir"
+
+            contact.rename("William the Conqueror");
+            System.out.println(toString(nameInfo));//"Name: William the Conqueror"
+
+            System.out.println(contact.getInfo().length);//1
+        }
+
 
 
         {
@@ -28,23 +46,23 @@ public class Main {
             System.out.println(info.length);//4
         }
 
-        {
-
-
-            Contact contact = new Contact("William the Conqueror");
-
-            ContactInfo tel1 = contact.addPhoneNumber(33, "276-1066-555");
-            ContactInfo tel2 = contact.addPhoneNumber(44, "20-1066-5555");
-            ContactInfo tel3 = contact.addPhoneNumber(33, "55-1066-5555");
-
-
-            ContactInfo[] info = contact.getInfo();
-
-            System.out.println(toString(info[0]));//"Name: William the Conqueror"
-            System.out.println(toString(info[1]));//"Tel: +33 276-1066-555"
-
-            System.out.println(info.length);//2
-        }
+//        {
+//
+//
+//            Contact contact = new Contact("William the Conqueror");
+//
+//            ContactInfo tel1 = contact.addPhoneNumber(33, "276-1066-555");
+//            ContactInfo tel2 = contact.addPhoneNumber(44, "20-1066-5555");
+//            ContactInfo tel3 = contact.addPhoneNumber(33, "55-1066-5555");
+//
+//
+//            ContactInfo[] info = contact.getInfo();
+//
+//            System.out.println(toString(info[0]));//"Name: William the Conqueror"
+//            System.out.println(toString(info[1]));//"Tel: +33 276-1066-555"
+//
+//            System.out.println(info.length);//2
+//        }
     }
 
 
