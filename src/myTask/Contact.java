@@ -1,17 +1,18 @@
 package myTask;
 
-import java.util.ArrayList;
-
 public class Contact implements ContactInfo {
 
-
+    private String telNumber;
     private String contactName;
 
     private int eMailNumber;
+    private int sosialNumber;
     private int telCount;
     private Email[] mymail;
 
-    private Tel[] myTel;
+    private Social[] mysosial;
+
+    private NameContactInfo[] myTel;
 
     public Contact(String contactName) {
         this.contactName = contactName;
@@ -19,12 +20,14 @@ public class Contact implements ContactInfo {
         this.mymail = new Email[3];
 
         this.telCount = 0;
-        this.myTel = new Tel[1];
+        this.myTel = new NameContactInfo[1];
+
+        this.sosialNumber = 0;
+        this.mysosial = new Social[5];
 
     }
 
     public void rename(String newName) {
-
         if (newName == null || newName.trim().length() == 0)
             return;
 
@@ -53,6 +56,7 @@ public class Contact implements ContactInfo {
             return null;
         }
 
+
         Email m = new Email(localPart, domain);
 
         mymail[geteMailNumber()] = m;
@@ -63,9 +67,39 @@ public class Contact implements ContactInfo {
 
 
     public Email addEpamEmail(String firstname, String lastname) {
-        return null;
-    }
 
+        if (geteMailNumber() >= 3) {
+            return null;
+        }
+
+
+        Email contactInfo = new Email() {
+
+
+            private String email = firstname + "_" + lastname + "@epam.com";
+
+            public String getEmail() {
+                return email;
+            }
+
+            @Override
+            public String getTitle() {
+                return "Epam Email";
+            }
+
+            @Override
+            public String getValue() {
+                return this.getEmail();
+            }
+
+        };
+
+        mymail[geteMailNumber()] =  contactInfo;
+
+        seteMailNumber();
+        return contactInfo;
+
+    }
 
     public void setTelCount() {
         this.telCount++;
@@ -76,39 +110,83 @@ public class Contact implements ContactInfo {
     }
 
     public ContactInfo addPhoneNumber(int code, String number) {
-
         if (getTelCount() >= 1) {
             return null;
         }
 
-        Tel t = new Tel(code, number);
+        NameContactInfo t = new NameContactInfo(code, number);
         myTel[getTelCount()] = t;
 
         setTelCount();
         return t;
-
-
     }
 
     public Social addTwitter(String twitterId) {
-        return null;
+
+        if (twitterId == null)
+            return null;
+
+        if (getSosialNumber() >= 5) {
+            return null;
+        }
+
+        Social sTw = new Social("Twitter", twitterId);
+        mysosial[getSosialNumber()] = sTw;
+
+        setSosialNumber();
+        return sTw;
+
+    }
+
+    public int getSosialNumber() {
+        return sosialNumber;
+    }
+
+    public void setSosialNumber() {
+        this.sosialNumber++;
     }
 
     public Social addInstagram(String instagramId) {
-        //Implement this method
-        return null;
+        if (instagramId == null)
+            return null;
+
+        if (getSosialNumber() >= 5) {
+            return null;
+        }
+
+        Social sTw = new Social("Instagram", instagramId);
+        mysosial[getSosialNumber()] = sTw;
+
+        setSosialNumber();
+        return sTw;
     }
 
     public Social addSocialMedia(String title, String id) {
-        return null;
+        if (id == null)
+            return null;
+
+        if (getSosialNumber() >= 5) {
+            return null;
+        }
+
+        Social sTw = new Social(title, id);
+        mysosial[getSosialNumber()] = sTw;
+
+        setSosialNumber();
+        return sTw;
     }
 
     public ContactInfo[] getInfo() {
         //Implement this method
-
         int count = 0;
 
         int sizeArray = 1;
+        for (int i = 0; i < myTel.length; i++) {
+            if (myTel[i] == null) {
+                continue;
+            }
+            sizeArray++;
+        }
 
         for (int i = 0; i < mymail.length; i++) {
             if (mymail[i] == null) {
@@ -117,12 +195,13 @@ public class Contact implements ContactInfo {
             sizeArray++;
         }
 
-        for (int i = 0; i < myTel.length; i++) {
-            if (myTel[i] == null) {
+        for (int i = 0; i < mysosial.length; i++) {
+            if (mysosial[i] == null) {
                 continue;
             }
             sizeArray++;
         }
+
 
         ContactInfo[] infos = new ContactInfo[sizeArray];
 
@@ -149,13 +228,25 @@ public class Contact implements ContactInfo {
             infos[count] = myTel[i];
 
         }
+        for (int i = 0; i < mysosial.length; i++) {
+
+            if (mysosial[i] == null) {
+                continue;
+            }
+
+            count++;
+            infos[count] = mysosial[i];
+
+        }
+
 
         return infos;
+
+
     }
 
     @Override
     public String getTitle() {
-
         return "Name";
     }
 
@@ -164,13 +255,27 @@ public class Contact implements ContactInfo {
         return this.getContactName();
     }
 
-    public class Social implements ContactInfo {
+    public static class Social implements ContactInfo {
+
+
+        private String title;
+        private String sosialName;
+
 
         private String instagramId;
+
+        public Social(String titl, String mName) {
+            this.title = titl;
+            this.sosialName = mName;
+        }
 
         public String addInstagram(String instagramId) {
 //            setInstagramId(String instagramId);
             return instagramId;
+        }
+
+        public String getSosialName() {
+            return sosialName;
         }
 
         public void setInstagramId(String instagramId) {
@@ -179,28 +284,25 @@ public class Contact implements ContactInfo {
 
         @Override
         public String getTitle() {
-            return null;
+            return title;
         }
 
         @Override
         public String getValue() {
-            return null;
+            return this.getSosialName();
         }
     }
 
-    public class Email implements ContactInfo {
+    public static class Email implements ContactInfo {
 
         private String email;
 
-        private String title;
-
         public Email(String email, String domain) {
             this.email = email + "@" + domain;
-            setTitle();
         }
 
-        public void setTitle() {
-            this.title = "Email";
+        public Email() {
+
         }
 
         public String getEmail() {
@@ -209,55 +311,40 @@ public class Contact implements ContactInfo {
 
         @Override
         public String getTitle() {
-            return title;
+            return "Email";
         }
 
         @Override
         public String getValue() {
             return this.getEmail();
         }
+
     }
 
-    public class Tel implements ContactInfo {
 
-        private String tel;
+    private class NameContactInfo implements ContactInfo {
 
-        private String title;
-
-        public Tel(int code, String number) {
-            this.tel = "+" + code + " " + number;
+        public NameContactInfo(int code, String number) {
+            Contact.this.telNumber = "+" + code + " " + number;
+            setTitle();
         }
 
         public void setTitle() {
-            this.title = "Tel";
         }
 
         public String getTel() {
-            return tel;
+            return Contact.this.telNumber;
         }
+
 
         @Override
         public String getTitle() {
-            return title;
+            return "Tel";
         }
 
         @Override
         public String getValue() {
             return this.getTel();
-        }
-    }
-
-    private class NameContactInfo implements ContactInfo {
-
-
-        @Override
-        public String getTitle() {
-            return null;
-        }
-
-        @Override
-        public String getValue() {
-            return null;
         }
     }
 
